@@ -17,10 +17,15 @@ describe('Central de Atendimento ao Cliente TAT', function() {
             email: "teste@gmail.com",
             comentario: "Aulas muito produtivas!"
         }
+        cy.clock()
 
         cy.preencherCamposObrigatorios(dados)
         cy.contains('button', 'Enviar').click()
         cy.get('.success').should('be.visible').and('contains.text', 'Mensagem enviada com sucesso.')
+        
+        // Validar que a mensagem some após 3 segundos
+        cy.tick(3000)
+        cy.get('.success').should('not.be.visible')
     })
 
     it('Deve verififcar se a mensagem de erro é emitida ao informar um e-mail inválido', function() {
